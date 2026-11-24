@@ -1,0 +1,149 @@
+{% extends "base.html" %}
+
+{% block title %}Methodology & Econometrics - HomeValue{% endblock %}
+
+{% block content %}
+<div class="container">
+
+  <div class="page-header">
+    <div style="display: inline-flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+      <span class="badge badge-teal">Mathematical Foundations</span>
+      <span class="badge">Regularization Theory</span>
+    </div>
+    <h1 class="page-title">Econometric Methodology &amp; Regularization Framework</h1>
+    <p class="page-subtitle">
+      A comprehensive technical review of Ordinary Least Squares, Ridge, and Lasso regression under structural multicollinearity. Exploring mathematical loss formulations, Variance Inflation Factor (VIF), and soft-thresholding coordinate descent.
+    </p>
+  </div>
+
+  <!-- 1. The Multicollinearity Problem -->
+  <section class="card" style="margin-bottom: 32px;" id="multicollinearity">
+    <div class="card-header">
+      <div class="card-title">1. The Multicollinearity Phenomenon in Housing Data</div>
+      <span class="badge badge-warning">Ill-Conditioned Gram Matrix</span>
+    </div>
+    <div class="card-body">
+      <p style="color: var(--color-text-secondary); margin-bottom: 16px; font-size: 14px; line-height: 1.6;">
+        In real estate valuation, architectural dimensions frequently exhibit near-perfect linear dependencies. In our dataset:
+      </p>
+      <ul style="list-style: disc; margin-left: 24px; color: var(--color-text-secondary); font-size: 14px; line-height: 1.8; margin-bottom: 16px;">
+        <li><code>total_interior_sqft &approx; living_area_sqft + &epsilon;(0, 100)</code></li>
+        <li><code>footprint_sqft &approx; 0.75 &times; living_area_sqft + &epsilon;(0, 80)</code></li>
+      </ul>
+      <p style="color: var(--color-text-secondary); font-size: 14px; line-height: 1.6;">
+        When predictors are collinear, the columns of design matrix <strong>X</strong> become linearly dependent. As a result, the Gram matrix <strong>(X<sup>T</sup>X)</strong> approaches singularity (determinant &rarr; 0), causing the inverted matrix <strong>(X<sup>T</sup>X)<sup>-1</sup></strong> to have explosive diagonal elements. This inflates the variance of coefficient estimates, making weights unreliable and sensitive to slight data perturbations.
+      </p>
+    </div>
+  </section>
+
+  <!-- 2. Variance Inflation Factor (VIF) -->
+  <section class="card" style="margin-bottom: 32px;" id="vif">
+    <div class="card-header">
+      <div class="card-title">2. Variance Inflation Factor (VIF) Diagnostic</div>
+      <span class="badge">VIF &gt; 10 = Severe</span>
+    </div>
+    <div class="card-body">
+      <p style="color: var(--color-text-secondary); font-size: 14px; line-height: 1.6; margin-bottom: 16px;">
+        VIF measures how much the variance of an estimated regression coefficient is inflated due to collinearity with other features. For each predictor <em>x<sub>j</sub></em>:
+      </p>
+      <div class="math-block">
+        VIF<sub>j</sub> = 1 / (1 - R<sub>j</sub><sup>2</sup>)
+      </div>
+      <p style="color: var(--color-text-secondary); font-size: 14px; line-height: 1.6; margin-bottom: 16px;">
+        Where <em>R<sub>j</sub><sup>2</sup></em> is the coefficient of determination obtained from regressing <em>x<sub>j</sub></em> onto all remaining <em>p - 1</em> predictors.
+      </p>
+      <div style="background-color: #F8FAFB; border: 1px solid var(--color-border); border-radius: var(--radius-sm); padding: 16px;">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; font-size: 13px;">
+          <div><strong>living_area_sqft:</strong> <span style="color: #C53929; font-weight: 700;">166.46</span> (Severe)</div>
+          <div><strong>total_interior_sqft:</strong> <span style="color: #C53929; font-weight: 700;">88.43</span> (Severe)</div>
+          <div><strong>footprint_sqft:</strong> <span style="color: #C53929; font-weight: 700;">78.61</span> (Severe)</div>
+          <div><strong>garage_capacity_cars:</strong> 1.00 (Orthogonal)</div>
+          <div><strong>lot_size_sqft:</strong> 1.00 (Orthogonal)</div>
+          <div><strong>room_count_above_ground:</strong> 1.00 (Orthogonal)</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Mathematical Formulations of the Three Models -->
+  <section class="card" style="margin-bottom: 32px;">
+    <div class="card-header">
+      <div class="card-title">3. Objective Loss Functions &amp; Optimization</div>
+      <span class="badge badge-teal">Comparative Mathematics</span>
+    </div>
+    <div class="card-body">
+      
+      <!-- OLS -->
+      <div style="margin-bottom: 28px;" id="ols">
+        <h4 style="font-size: 16px; font-weight: 700; color: var(--color-primary-navy); margin-bottom: 8px;">
+          A. Ordinary Least Squares (Linear Regression)
+        </h4>
+        <div class="math-block">
+          min<sub>&beta;</sub> { &Sigma;<sub>i=1</sub><sup>n</sup> (y<sub>i</sub> - x<sub>i</sub><sup>T</sup>&beta;)<sup>2</sup> } = min<sub>&beta;</sub> || y - X&beta; ||<sub>2</sub><sup>2</sup>
+        </div>
+        <p style="font-size: 14px; color: var(--color-text-secondary); line-height: 1.6;">
+          <strong>Analytical Solution:</strong> &beta;&#770; = (X<sup>T</sup>X)<sup>-1</sup> X<sup>T</sup>y. <br>
+          <em>Pathology:</em> In our housing data, OLS assigns footprint a coefficient of <strong>-3,905.10</strong>. Larger houses do not lower market value; this negative sign is a mathematical artifact of matrix inversion on correlated columns.
+        </p>
+      </div>
+
+      <!-- Ridge -->
+      <div style="margin-bottom: 28px;" id="ridge">
+        <h4 style="font-size: 16px; font-weight: 700; color: var(--color-primary-navy); margin-bottom: 8px;">
+          B. Ridge Regression (Tikhonov / L2 Regularization)
+        </h4>
+        <div class="math-block">
+          min<sub>&beta;</sub> { || y - X&beta; ||<sub>2</sub><sup>2</sup> + &alpha; &Sigma;<sub>j=1</sub><sup>p</sup> &beta;<sub>j</sub><sup>2</sup> } = min<sub>&beta;</sub> { || y - X&beta; ||<sub>2</sub><sup>2</sup> + &alpha; || &beta; ||<sub>2</sub><sup>2</sup> }
+        </div>
+        <p style="font-size: 14px; color: var(--color-text-secondary); line-height: 1.6;">
+          <strong>Analytical Solution:</strong> &beta;&#770;<sub>Ridge</sub> = (X<sup>T</sup>X + &alpha; I)<sup>-1</sup> X<sup>T</sup>y (where the intercept row/col in <em>I</em> is not penalized).<br>
+          <em>Effect:</em> Adding &alpha; along the diagonal guarantees that (X<sup>T</sup>X + &alpha;I) is non-singular and strictly positive-definite. Ridge smoothly shrinks weights and restores footprint to a positive <strong>+24,935.63</strong>.
+        </p>
+      </div>
+
+      <!-- Lasso -->
+      <div id="lasso">
+        <h4 style="font-size: 16px; font-weight: 700; color: var(--color-primary-navy); margin-bottom: 8px;">
+          C. Lasso Regression (L1 Regularization &amp; Feature Selection)
+        </h4>
+        <div class="math-block">
+          min<sub>&beta;</sub> { 1/(2n) || y - X&beta; ||<sub>2</sub><sup>2</sup> + &alpha; &Sigma;<sub>j=1</sub><sup>p</sup> |&beta;<sub>j</sub>| }
+        </div>
+        <p style="font-size: 14px; color: var(--color-text-secondary); line-height: 1.6; margin-bottom: 12px;">
+          Because the L1 norm |&beta;<sub>j</sub>| has a sharp vertex at &beta;<sub>j</sub> = 0, contour intersections occur on the coordinate axes, setting redundant coefficients identically to zero.
+        </p>
+        <p style="font-size: 14px; color: var(--color-text-secondary); line-height: 1.6;">
+          <strong>Coordinate Descent Update:</strong> For each feature <em>j</em>, calculating partial residual correlation &rho;<sub>j</sub>:
+        </p>
+        <div class="math-block">
+          &beta;<sub>j</sub> = S(&rho;<sub>j</sub>, &alpha;) = sign(&rho;<sub>j</sub>) &times; max(0, |&rho;<sub>j</sub>| - &alpha;)
+        </div>
+        <p style="font-size: 14px; color: var(--color-text-secondary); line-height: 1.6;">
+          <em>Result:</em> Lasso forces <code>footprint_sqft</code> coefficient to <strong>0.0000</strong>, automatically discovering that footprint adds no incremental information beyond living area.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 4. Feature Standardization Protocol -->
+  <section class="card" style="margin-bottom: 32px;">
+    <div class="card-header">
+      <div class="card-title">4. Feature Standardization &amp; Data Leakage Prevention</div>
+      <span class="badge">StandardScaler Protocol</span>
+    </div>
+    <div class="card-body">
+      <p style="font-size: 14px; color: var(--color-text-secondary); line-height: 1.6; margin-bottom: 16px;">
+        Because regularization penalties (&Sigma;&beta;&sup2; and &Sigma;|&beta;|) penalize absolute coefficient magnitude, features with larger units (such as lot size in thousands of sq. ft.) would be unfairly penalized compared to car counts (0-3).
+      </p>
+      <div class="math-block">
+        z<sub>ij</sub> = (x<sub>ij</sub> - &mu;<sub>j,train</sub>) / &sigma;<sub>j,train</sub>
+      </div>
+      <p style="font-size: 14px; color: var(--color-text-secondary); line-height: 1.6;">
+        <strong>Strict Data Leakage Rule:</strong> Means (&mu;) and standard deviations (&sigma;) are computed exclusively on the 80% training partition (N = 1,600). The 20% test partition (N = 400) and user prediction queries are transformed using the saved training parameters without re-estimation.
+      </p>
+    </div>
+  </section>
+
+</div>
+{% endblock %}

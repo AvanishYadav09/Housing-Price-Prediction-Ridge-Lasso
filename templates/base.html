@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}HomeValue - Housing Price Prediction System{% endblock %}</title>
+  
+  <!-- Inter Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+  
+  <!-- Custom Corporate Stylesheet -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  {% block extra_head %}{% endblock %}
+</head>
+<body>
+  <!-- Global Corporate Header -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="{{ url_for('index') }}" class="brand-wrapper">
+        <div class="brand-icon">HV</div>
+        <div class="brand-name">HomeValue</div>
+        <span class="brand-tag">PropTech Analytics</span>
+      </a>
+      
+      <nav class="site-nav">
+        <a href="{{ url_for('index') }}" class="nav-link {% if current_page == 'home' %}active{% endif %}">Overview</a>
+        <a href="{{ url_for('predict_page') }}" class="nav-link {% if current_page == 'predict' %}active{% endif %}">Valuation Engine</a>
+        <a href="{{ url_for('analytics_page') }}" class="nav-link {% if current_page == 'analytics' %}active{% endif %}">Model Analytics</a>
+        <a href="{{ url_for('methodology_page') }}" class="nav-link {% if current_page == 'methodology' %}active{% endif %}">Methodology</a>
+        <a href="{{ url_for('about_page') }}" class="nav-link {% if current_page == 'about' %}active{% endif %}">About</a>
+      </nav>
+      
+      <div class="header-actions">
+        <a href="{{ url_for('predict_page') }}" class="btn btn-accent btn-sm">Estimate Value</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Area -->
+  <main class="main-content">
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- Global Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-col-brand">
+          <div class="brand-name">HomeValue</div>
+          <p>
+            An enterprise-structured property valuation and econometrics benchmarking system. 
+            Demonstrating Ordinary Least Squares, Ridge, and Lasso regularization under controlled multicollinearity.
+          </p>
+        </div>
+        
+        <div class="footer-nav">
+          <div class="footer-group">
+            <h4>Platform</h4>
+            <ul>
+              <li><a href="{{ url_for('predict_page') }}">Valuation Engine</a></li>
+              <li><a href="{{ url_for('analytics_page') }}">Performance Metrics</a></li>
+              <li><a href="{{ url_for('methodology_page') }}">VIF & Regularization</a></li>
+            </ul>
+          </div>
+          
+          <div class="footer-group">
+            <h4>Models</h4>
+            <ul>
+              <li><a href="{{ url_for('methodology_page') }}#ols">Linear (OLS)</a></li>
+              <li><a href="{{ url_for('methodology_page') }}#ridge">Ridge Regression (&alpha;=10)</a></li>
+              <li><a href="{{ url_for('methodology_page') }}#lasso">Lasso Regression (&alpha;=1000)</a></li>
+            </ul>
+          </div>
+          
+          <div class="footer-group">
+            <h4>Project</h4>
+            <ul>
+              <li><a href="{{ url_for('about_page') }}">Architecture</a></li>
+              <li><a href="{{ url_for('about_page') }}#dataset">Dataset Disclosure</a></li>
+              <li><a href="{{ url_for('about_page') }}#limitations">Limitations</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <div>&copy; 2026 HomeValue Analytics. Based on Ridge & Lasso Housing Econometrics Project.</div>
+        <div>Synthetic Benchmark Dataset &bull; R&sup2; 0.9716 &bull; 5-Fold Cross Validated</div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

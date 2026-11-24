@@ -1,0 +1,1076 @@
+{
+  "metadata": {
+    "total_records": 2000,
+    "train_records": 1600,
+    "test_records": 400,
+    "features_count": 6,
+    "model_count": 3,
+    "ridge_alpha": 10,
+    "lasso_alpha": 1000,
+    "best_cv_model": "Lasso Regression",
+    "best_test_r2": 0.9716,
+    "synthetic_disclaimer": "The housing records used are synthetically modeled with controlled multicollinearity to benchmark OLS against L1 and L2 regularization."
+  },
+  "features": [
+    "living_area_sqft",
+    "total_interior_sqft",
+    "footprint_sqft",
+    "garage_capacity_cars",
+    "lot_size_sqft",
+    "room_count_above_ground"
+  ],
+  "feature_display_names": {
+    "living_area_sqft": "Living Area (sq. ft.)",
+    "total_interior_sqft": "Total Interior Area (sq. ft.)",
+    "footprint_sqft": "Footprint Area (sq. ft.)",
+    "garage_capacity_cars": "Garage Capacity (cars)",
+    "lot_size_sqft": "Lot Size (sq. ft.)",
+    "room_count_above_ground": "Room Count (above ground)"
+  },
+  "test_evaluations": {
+    "Linear Regression": {
+      "r2": 0.9716,
+      "rmse": 23707.15,
+      "mae": 19168.62
+    },
+    "Ridge Regression": {
+      "r2": 0.9713,
+      "rmse": 23837.96,
+      "mae": 19283.67
+    },
+    "Lasso Regression": {
+      "r2": 0.9716,
+      "rmse": 23713.22,
+      "mae": 19129.36
+    }
+  },
+  "cv_summary": {
+    "Linear Regression": {
+      "mean_r2": 0.9721,
+      "std_r2": 0.0018,
+      "mean_rmse": 24215.22,
+      "mean_mae": 19342.16,
+      "fold_r2": [
+        0.9707,
+        0.9756,
+        0.9717,
+        0.971,
+        0.9716
+      ],
+      "fold_rmse": [
+        24869.44,
+        23856.57,
+        23938.29,
+        24704.64,
+        23707.15
+      ]
+    },
+    "Ridge Regression": {
+      "mean_r2": 0.9713,
+      "std_r2": 0.0018,
+      "mean_rmse": 24583.0,
+      "mean_mae": 19685.57,
+      "fold_r2": [
+        0.9697,
+        0.9747,
+        0.9707,
+        0.9698,
+        0.9713
+      ],
+      "fold_rmse": [
+        25259.1,
+        24283.64,
+        24360.58,
+        25173.71,
+        23837.96
+      ]
+    },
+    "Lasso Regression": {
+      "mean_r2": 0.9719,
+      "std_r2": 0.0018,
+      "mean_rmse": 24290.93,
+      "mean_mae": 19397.59,
+      "fold_r2": [
+        0.9701,
+        0.9754,
+        0.9717,
+        0.9707,
+        0.9716
+      ],
+      "fold_rmse": [
+        25094.47,
+        23932.99,
+        23905.12,
+        24808.84,
+        23713.22
+      ]
+    }
+  },
+  "vif_results": {
+    "living_area_sqft": 166.46,
+    "total_interior_sqft": 88.43,
+    "footprint_sqft": 78.61,
+    "garage_capacity_cars": 1.0,
+    "lot_size_sqft": 1.0,
+    "room_count_above_ground": 1.0
+  },
+  "coefficients": {
+    "features": [
+      "living_area_sqft",
+      "total_interior_sqft",
+      "footprint_sqft",
+      "garage_capacity_cars",
+      "lot_size_sqft",
+      "room_count_above_ground"
+    ],
+    "feature_labels": [
+      "Living Area (sq. ft.)",
+      "Total Interior Area (sq. ft.)",
+      "Footprint Area (sq. ft.)",
+      "Garage Capacity (cars)",
+      "Lot Size (sq. ft.)",
+      "Room Count (above ground)"
+    ],
+    "Linear": [
+      141750.1738,
+      2563.9158,
+      -3905.1046,
+      16496.6775,
+      23359.9507,
+      17238.0268
+    ],
+    "Ridge": [
+      83891.5656,
+      31406.4816,
+      24935.6283,
+      16339.6589,
+      23215.9452,
+      16885.3489
+    ],
+    "Lasso": [
+      138399.6158,
+      1034.724,
+      0.0,
+      15431.1301,
+      22379.6394,
+      16230.9539
+    ],
+    "intercepts": {
+      "Linear": 530803.12,
+      "Ridge": 530803.12,
+      "Lasso": 530803.12
+    }
+  },
+  "correlation_matrix": {
+    "living_area_sqft": {
+      "living_area_sqft": 1.0,
+      "total_interior_sqft": 0.9943,
+      "footprint_sqft": 0.9937,
+      "garage_capacity_cars": -0.0323,
+      "lot_size_sqft": -0.0003,
+      "room_count_above_ground": 0.0161,
+      "sale_price": 0.9599
+    },
+    "total_interior_sqft": {
+      "living_area_sqft": 0.9943,
+      "total_interior_sqft": 1.0,
+      "footprint_sqft": 0.988,
+      "garage_capacity_cars": -0.0334,
+      "lot_size_sqft": 0.0012,
+      "room_count_above_ground": 0.0171,
+      "sale_price": 0.955
+    },
+    "footprint_sqft": {
+      "living_area_sqft": 0.9937,
+      "total_interior_sqft": 0.988,
+      "footprint_sqft": 1.0,
+      "garage_capacity_cars": -0.0279,
+      "lot_size_sqft": -0.002,
+      "room_count_above_ground": 0.0209,
+      "sale_price": 0.9545
+    },
+    "garage_capacity_cars": {
+      "living_area_sqft": -0.0323,
+      "total_interior_sqft": -0.0334,
+      "footprint_sqft": -0.0279,
+      "garage_capacity_cars": 1.0,
+      "lot_size_sqft": -0.0264,
+      "room_count_above_ground": -0.0225,
+      "sale_price": 0.0769
+    },
+    "lot_size_sqft": {
+      "living_area_sqft": -0.0003,
+      "total_interior_sqft": 0.0012,
+      "footprint_sqft": -0.002,
+      "garage_capacity_cars": -0.0264,
+      "lot_size_sqft": 1.0,
+      "room_count_above_ground": 0.0159,
+      "sale_price": 0.1569
+    },
+    "room_count_above_ground": {
+      "living_area_sqft": 0.0161,
+      "total_interior_sqft": 0.0171,
+      "footprint_sqft": 0.0209,
+      "garage_capacity_cars": -0.0225,
+      "lot_size_sqft": 0.0159,
+      "room_count_above_ground": 1.0,
+      "sale_price": 0.1325
+    },
+    "sale_price": {
+      "living_area_sqft": 0.9599,
+      "total_interior_sqft": 0.955,
+      "footprint_sqft": 0.9545,
+      "garage_capacity_cars": 0.0769,
+      "lot_size_sqft": 0.1569,
+      "room_count_above_ground": 0.1325,
+      "sale_price": 1.0
+    }
+  },
+  "feature_statistics": {
+    "living_area_sqft": {
+      "name": "Living Area (sq. ft.)",
+      "count": 2000,
+      "mean": 2395.64,
+      "std": 935.07,
+      "min": 810.3,
+      "q25": 1561.75,
+      "median": 2423.52,
+      "q75": 3202.17,
+      "max": 3999.1
+    },
+    "total_interior_sqft": {
+      "name": "Total Interior Area (sq. ft.)",
+      "count": 2000,
+      "mean": 2396.4,
+      "std": 942.46,
+      "min": 623.45,
+      "q25": 1572.44,
+      "median": 2433.13,
+      "q75": 3195.94,
+      "max": 4152.67
+    },
+    "footprint_sqft": {
+      "name": "Footprint Area (sq. ft.)",
+      "count": 2000,
+      "mean": 1793.72,
+      "std": 703.25,
+      "min": 474.21,
+      "q25": 1181.31,
+      "median": 1802.03,
+      "q75": 2395.37,
+      "max": 3097.87
+    },
+    "garage_capacity_cars": {
+      "name": "Garage Capacity (cars)",
+      "count": 2000,
+      "mean": 1.46,
+      "std": 1.13,
+      "min": 0.0,
+      "q25": 0.0,
+      "median": 1.0,
+      "q75": 2.0,
+      "max": 3.0
+    },
+    "lot_size_sqft": {
+      "name": "Lot Size (sq. ft.)",
+      "count": 2000,
+      "mean": 5671.5,
+      "std": 2408.43,
+      "min": 1500.45,
+      "q25": 3643.85,
+      "median": 5634.25,
+      "q75": 7704.18,
+      "max": 9995.79
+    },
+    "room_count_above_ground": {
+      "name": "Room Count (above ground)",
+      "count": 2000,
+      "mean": 5.04,
+      "std": 2.01,
+      "min": 2.0,
+      "q25": 3.0,
+      "median": 5.0,
+      "q75": 7.0,
+      "max": 8.0
+    },
+    "sale_price": {
+      "name": "Sale Price",
+      "count": 2000,
+      "mean": 527688.06,
+      "std": 145468.7,
+      "min": 219107.74,
+      "q25": 404438.4,
+      "median": 532523.55,
+      "q75": 647575.13,
+      "max": 858333.33
+    }
+  },
+  "scatter_sample": [
+    {
+      "actual": 507842.22,
+      "pred_linear": 522209.84,
+      "pred_ridge": 524472.79,
+      "pred_lasso": 523272.59
+    },
+    {
+      "actual": 335971.74,
+      "pred_linear": 363435.91,
+      "pred_ridge": 355788.53,
+      "pred_lasso": 366583.12
+    },
+    {
+      "actual": 609181.47,
+      "pred_linear": 623254.37,
+      "pred_ridge": 622906.1,
+      "pred_lasso": 621588.01
+    },
+    {
+      "actual": 390277.55,
+      "pred_linear": 386183.72,
+      "pred_ridge": 386173.0,
+      "pred_lasso": 387858.25
+    },
+    {
+      "actual": 752533.58,
+      "pred_linear": 770778.04,
+      "pred_ridge": 774074.58,
+      "pred_lasso": 766869.89
+    },
+    {
+      "actual": 399512.54,
+      "pred_linear": 411614.01,
+      "pred_ridge": 419294.01,
+      "pred_lasso": 415004.77
+    },
+    {
+      "actual": 408810.9,
+      "pred_linear": 420652.18,
+      "pred_ridge": 418553.51,
+      "pred_lasso": 422868.61
+    },
+    {
+      "actual": 316090.09,
+      "pred_linear": 294612.15,
+      "pred_ridge": 300221.61,
+      "pred_lasso": 298946.59
+    },
+    {
+      "actual": 563666.07,
+      "pred_linear": 598135.35,
+      "pred_ridge": 595252.6,
+      "pred_lasso": 597807.76
+    },
+    {
+      "actual": 268449.18,
+      "pred_linear": 291601.74,
+      "pred_ridge": 292702.08,
+      "pred_lasso": 293109.72
+    },
+    {
+      "actual": 532190.92,
+      "pred_linear": 569079.34,
+      "pred_ridge": 564597.79,
+      "pred_lasso": 570248.53
+    },
+    {
+      "actual": 549997.97,
+      "pred_linear": 583454.4,
+      "pred_ridge": 583647.06,
+      "pred_lasso": 582291.26
+    },
+    {
+      "actual": 520506.7,
+      "pred_linear": 534508.04,
+      "pred_ridge": 536902.05,
+      "pred_lasso": 534836.86
+    },
+    {
+      "actual": 413484.54,
+      "pred_linear": 421868.42,
+      "pred_ridge": 420295.93,
+      "pred_lasso": 425106.87
+    },
+    {
+      "actual": 425756.54,
+      "pred_linear": 389096.62,
+      "pred_ridge": 391655.42,
+      "pred_lasso": 391329.62
+    },
+    {
+      "actual": 270512.22,
+      "pred_linear": 326338.01,
+      "pred_ridge": 334581.04,
+      "pred_lasso": 329379.18
+    },
+    {
+      "actual": 309023.42,
+      "pred_linear": 351678.88,
+      "pred_ridge": 347672.46,
+      "pred_lasso": 352244.55
+    },
+    {
+      "actual": 674656.11,
+      "pred_linear": 674842.01,
+      "pred_ridge": 676775.25,
+      "pred_lasso": 673508.95
+    },
+    {
+      "actual": 686600.51,
+      "pred_linear": 714887.13,
+      "pred_ridge": 709967.76,
+      "pred_lasso": 713178.95
+    },
+    {
+      "actual": 631299.66,
+      "pred_linear": 644258.99,
+      "pred_ridge": 646054.94,
+      "pred_lasso": 641856.59
+    },
+    {
+      "actual": 279250.21,
+      "pred_linear": 320183.27,
+      "pred_ridge": 322719.88,
+      "pred_lasso": 322527.09
+    },
+    {
+      "actual": 595280.9,
+      "pred_linear": 628502.34,
+      "pred_ridge": 624554.94,
+      "pred_lasso": 626170.44
+    },
+    {
+      "actual": 599813.51,
+      "pred_linear": 628217.95,
+      "pred_ridge": 627804.41,
+      "pred_lasso": 627930.3
+    },
+    {
+      "actual": 612412.35,
+      "pred_linear": 607219.85,
+      "pred_ridge": 600930.09,
+      "pred_lasso": 604779.1
+    },
+    {
+      "actual": 262473.62,
+      "pred_linear": 290180.85,
+      "pred_ridge": 291514.06,
+      "pred_lasso": 292127.22
+    },
+    {
+      "actual": 425160.88,
+      "pred_linear": 415644.75,
+      "pred_ridge": 418942.54,
+      "pred_lasso": 416178.94
+    },
+    {
+      "actual": 642114.83,
+      "pred_linear": 623711.48,
+      "pred_ridge": 620350.79,
+      "pred_lasso": 622163.43
+    },
+    {
+      "actual": 436403.52,
+      "pred_linear": 430961.93,
+      "pred_ridge": 435797.43,
+      "pred_lasso": 431325.07
+    },
+    {
+      "actual": 465756.33,
+      "pred_linear": 460938.85,
+      "pred_ridge": 452449.0,
+      "pred_lasso": 461552.53
+    },
+    {
+      "actual": 522790.43,
+      "pred_linear": 539271.87,
+      "pred_ridge": 535207.08,
+      "pred_lasso": 540589.56
+    },
+    {
+      "actual": 677339.64,
+      "pred_linear": 676212.9,
+      "pred_ridge": 668954.28,
+      "pred_lasso": 674617.21
+    },
+    {
+      "actual": 609653.02,
+      "pred_linear": 620195.27,
+      "pred_ridge": 617626.54,
+      "pred_lasso": 618529.58
+    },
+    {
+      "actual": 303510.8,
+      "pred_linear": 347299.06,
+      "pred_ridge": 346515.76,
+      "pred_lasso": 347237.62
+    },
+    {
+      "actual": 474368.19,
+      "pred_linear": 481033.61,
+      "pred_ridge": 471689.2,
+      "pred_lasso": 481334.51
+    },
+    {
+      "actual": 599951.58,
+      "pred_linear": 562141.88,
+      "pred_ridge": 560628.07,
+      "pred_lasso": 562039.34
+    },
+    {
+      "actual": 676441.05,
+      "pred_linear": 682286.88,
+      "pred_ridge": 684246.49,
+      "pred_lasso": 680268.63
+    },
+    {
+      "actual": 555689.8,
+      "pred_linear": 575981.25,
+      "pred_ridge": 583185.18,
+      "pred_lasso": 576192.82
+    },
+    {
+      "actual": 309446.25,
+      "pred_linear": 336898.76,
+      "pred_ridge": 341402.38,
+      "pred_lasso": 338006.56
+    },
+    {
+      "actual": 368218.95,
+      "pred_linear": 331182.88,
+      "pred_ridge": 336184.08,
+      "pred_lasso": 333736.55
+    },
+    {
+      "actual": 494477.64,
+      "pred_linear": 501022.12,
+      "pred_ridge": 506213.74,
+      "pred_lasso": 501434.73
+    },
+    {
+      "actual": 680288.03,
+      "pred_linear": 720438.08,
+      "pred_ridge": 724644.53,
+      "pred_lasso": 719981.85
+    },
+    {
+      "actual": 511598.67,
+      "pred_linear": 504514.48,
+      "pred_ridge": 501731.92,
+      "pred_lasso": 504423.59
+    },
+    {
+      "actual": 713558.8,
+      "pred_linear": 693573.49,
+      "pred_ridge": 684769.76,
+      "pred_lasso": 692190.31
+    },
+    {
+      "actual": 718609.92,
+      "pred_linear": 699937.69,
+      "pred_ridge": 699903.97,
+      "pred_lasso": 699589.22
+    },
+    {
+      "actual": 388361.47,
+      "pred_linear": 377280.6,
+      "pred_ridge": 380161.16,
+      "pred_lasso": 377977.86
+    },
+    {
+      "actual": 741193.05,
+      "pred_linear": 787997.27,
+      "pred_ridge": 786585.61,
+      "pred_lasso": 781906.25
+    },
+    {
+      "actual": 639995.16,
+      "pred_linear": 668602.99,
+      "pred_ridge": 664021.24,
+      "pred_lasso": 665492.85
+    },
+    {
+      "actual": 590291.9,
+      "pred_linear": 606081.19,
+      "pred_ridge": 606576.92,
+      "pred_lasso": 605791.87
+    },
+    {
+      "actual": 722967.77,
+      "pred_linear": 730061.11,
+      "pred_ridge": 727624.2,
+      "pred_lasso": 728049.58
+    },
+    {
+      "actual": 695284.15,
+      "pred_linear": 679671.74,
+      "pred_ridge": 676873.13,
+      "pred_lasso": 678884.6
+    },
+    {
+      "actual": 389750.64,
+      "pred_linear": 392354.96,
+      "pred_ridge": 390730.98,
+      "pred_lasso": 391977.46
+    },
+    {
+      "actual": 328238.89,
+      "pred_linear": 332428.83,
+      "pred_ridge": 342583.72,
+      "pred_lasso": 332835.92
+    },
+    {
+      "actual": 321744.22,
+      "pred_linear": 311342.71,
+      "pred_ridge": 315269.16,
+      "pred_lasso": 312951.61
+    },
+    {
+      "actual": 557745.59,
+      "pred_linear": 565194.75,
+      "pred_ridge": 562774.85,
+      "pred_lasso": 562596.89
+    },
+    {
+      "actual": 498402.21,
+      "pred_linear": 488812.53,
+      "pred_ridge": 486686.34,
+      "pred_lasso": 492629.03
+    },
+    {
+      "actual": 440788.05,
+      "pred_linear": 497844.9,
+      "pred_ridge": 500490.57,
+      "pred_lasso": 501051.31
+    },
+    {
+      "actual": 422878.26,
+      "pred_linear": 438339.21,
+      "pred_ridge": 440401.58,
+      "pred_lasso": 439187.26
+    },
+    {
+      "actual": 747457.24,
+      "pred_linear": 736294.99,
+      "pred_ridge": 734067.76,
+      "pred_lasso": 736752.08
+    },
+    {
+      "actual": 514484.25,
+      "pred_linear": 514071.19,
+      "pred_ridge": 518335.78,
+      "pred_lasso": 515836.96
+    },
+    {
+      "actual": 633527.07,
+      "pred_linear": 580304.19,
+      "pred_ridge": 586723.57,
+      "pred_lasso": 580493.81
+    },
+    {
+      "actual": 556402.37,
+      "pred_linear": 539301.65,
+      "pred_ridge": 538950.97,
+      "pred_lasso": 538415.36
+    },
+    {
+      "actual": 433893.3,
+      "pred_linear": 405383.29,
+      "pred_ridge": 403688.17,
+      "pred_lasso": 406041.65
+    },
+    {
+      "actual": 679649.99,
+      "pred_linear": 703746.92,
+      "pred_ridge": 702952.68,
+      "pred_lasso": 700050.08
+    },
+    {
+      "actual": 497863.73,
+      "pred_linear": 523781.83,
+      "pred_ridge": 518657.89,
+      "pred_lasso": 524199.07
+    },
+    {
+      "actual": 462189.39,
+      "pred_linear": 460867.33,
+      "pred_ridge": 467041.72,
+      "pred_lasso": 461328.42
+    },
+    {
+      "actual": 505499.74,
+      "pred_linear": 500157.49,
+      "pred_ridge": 492785.93,
+      "pred_lasso": 499134.3
+    },
+    {
+      "actual": 337883.75,
+      "pred_linear": 311572.78,
+      "pred_ridge": 306385.32,
+      "pred_lasso": 313796.53
+    },
+    {
+      "actual": 465119.71,
+      "pred_linear": 492720.75,
+      "pred_ridge": 495002.2,
+      "pred_lasso": 493210.18
+    },
+    {
+      "actual": 293506.79,
+      "pred_linear": 282447.16,
+      "pred_ridge": 279880.0,
+      "pred_lasso": 287692.36
+    },
+    {
+      "actual": 689734.77,
+      "pred_linear": 666570.63,
+      "pred_ridge": 668856.75,
+      "pred_lasso": 666541.75
+    },
+    {
+      "actual": 585763.16,
+      "pred_linear": 585152.2,
+      "pred_ridge": 588233.27,
+      "pred_lasso": 584938.69
+    },
+    {
+      "actual": 346520.81,
+      "pred_linear": 343143.63,
+      "pred_ridge": 341615.21,
+      "pred_lasso": 346597.21
+    },
+    {
+      "actual": 642918.66,
+      "pred_linear": 641036.45,
+      "pred_ridge": 636552.96,
+      "pred_lasso": 639318.11
+    },
+    {
+      "actual": 501706.35,
+      "pred_linear": 526929.83,
+      "pred_ridge": 535184.28,
+      "pred_lasso": 527563.58
+    },
+    {
+      "actual": 392589.99,
+      "pred_linear": 378852.08,
+      "pred_ridge": 376652.52,
+      "pred_lasso": 378434.57
+    },
+    {
+      "actual": 366851.67,
+      "pred_linear": 391664.68,
+      "pred_ridge": 393436.77,
+      "pred_lasso": 393862.93
+    },
+    {
+      "actual": 651693.45,
+      "pred_linear": 666739.16,
+      "pred_ridge": 661886.36,
+      "pred_lasso": 663228.0
+    },
+    {
+      "actual": 379990.38,
+      "pred_linear": 364399.97,
+      "pred_ridge": 371270.41,
+      "pred_lasso": 364839.9
+    },
+    {
+      "actual": 677230.24,
+      "pred_linear": 647705.89,
+      "pred_ridge": 652741.29,
+      "pred_lasso": 646443.86
+    },
+    {
+      "actual": 763144.81,
+      "pred_linear": 741695.29,
+      "pred_ridge": 740715.04,
+      "pred_lasso": 739471.84
+    },
+    {
+      "actual": 662038.58,
+      "pred_linear": 644408.26,
+      "pred_ridge": 644800.35,
+      "pred_lasso": 643846.86
+    },
+    {
+      "actual": 357859.94,
+      "pred_linear": 347228.57,
+      "pred_ridge": 343202.8,
+      "pred_lasso": 345517.86
+    },
+    {
+      "actual": 652620.87,
+      "pred_linear": 614894.14,
+      "pred_ridge": 614933.0,
+      "pred_lasso": 615901.66
+    },
+    {
+      "actual": 383041.58,
+      "pred_linear": 361544.2,
+      "pred_ridge": 364823.5,
+      "pred_lasso": 363874.38
+    },
+    {
+      "actual": 564364.16,
+      "pred_linear": 575421.58,
+      "pred_ridge": 574897.71,
+      "pred_lasso": 575352.24
+    },
+    {
+      "actual": 532502.07,
+      "pred_linear": 563004.99,
+      "pred_ridge": 551046.44,
+      "pred_lasso": 563369.0
+    },
+    {
+      "actual": 295425.29,
+      "pred_linear": 316992.33,
+      "pred_ridge": 309724.51,
+      "pred_lasso": 317992.02
+    },
+    {
+      "actual": 448540.73,
+      "pred_linear": 460276.71,
+      "pred_ridge": 465684.44,
+      "pred_lasso": 458143.31
+    },
+    {
+      "actual": 614805.81,
+      "pred_linear": 623870.19,
+      "pred_ridge": 621937.59,
+      "pred_lasso": 621705.37
+    },
+    {
+      "actual": 578250.8,
+      "pred_linear": 562781.44,
+      "pred_ridge": 559688.46,
+      "pred_lasso": 562207.62
+    },
+    {
+      "actual": 620735.78,
+      "pred_linear": 621924.33,
+      "pred_ridge": 619393.27,
+      "pred_lasso": 623000.28
+    },
+    {
+      "actual": 334715.59,
+      "pred_linear": 368897.53,
+      "pred_ridge": 374189.62,
+      "pred_lasso": 370844.89
+    },
+    {
+      "actual": 549344.83,
+      "pred_linear": 529929.17,
+      "pred_ridge": 533501.83,
+      "pred_lasso": 528181.7
+    },
+    {
+      "actual": 722674.55,
+      "pred_linear": 761115.71,
+      "pred_ridge": 758167.82,
+      "pred_lasso": 756873.76
+    },
+    {
+      "actual": 261597.48,
+      "pred_linear": 261383.36,
+      "pred_ridge": 264756.2,
+      "pred_lasso": 265231.72
+    },
+    {
+      "actual": 678782.85,
+      "pred_linear": 700841.93,
+      "pred_ridge": 699949.44,
+      "pred_lasso": 700162.14
+    },
+    {
+      "actual": 505919.8,
+      "pred_linear": 511263.88,
+      "pred_ridge": 520109.38,
+      "pred_lasso": 511768.29
+    },
+    {
+      "actual": 341861.09,
+      "pred_linear": 388021.12,
+      "pred_ridge": 386744.94,
+      "pred_lasso": 389077.32
+    },
+    {
+      "actual": 309288.38,
+      "pred_linear": 330489.67,
+      "pred_ridge": 332833.63,
+      "pred_lasso": 331535.06
+    },
+    {
+      "actual": 423577.8,
+      "pred_linear": 428748.52,
+      "pred_ridge": 430682.16,
+      "pred_lasso": 429357.73
+    },
+    {
+      "actual": 658485.84,
+      "pred_linear": 647635.91,
+      "pred_ridge": 643664.3,
+      "pred_lasso": 644772.03
+    },
+    {
+      "actual": 415918.72,
+      "pred_linear": 412632.51,
+      "pred_ridge": 412460.29,
+      "pred_lasso": 413348.88
+    },
+    {
+      "actual": 639696.22,
+      "pred_linear": 621228.39,
+      "pred_ridge": 620609.87,
+      "pred_lasso": 619276.87
+    },
+    {
+      "actual": 519518.46,
+      "pred_linear": 507285.22,
+      "pred_ridge": 509555.75,
+      "pred_lasso": 507832.95
+    },
+    {
+      "actual": 436732.32,
+      "pred_linear": 376098.72,
+      "pred_ridge": 380334.96,
+      "pred_lasso": 375744.92
+    },
+    {
+      "actual": 469765.12,
+      "pred_linear": 469733.65,
+      "pred_ridge": 469094.27,
+      "pred_lasso": 469129.34
+    },
+    {
+      "actual": 654585.82,
+      "pred_linear": 644051.86,
+      "pred_ridge": 641275.92,
+      "pred_lasso": 643791.13
+    },
+    {
+      "actual": 494191.61,
+      "pred_linear": 526227.2,
+      "pred_ridge": 524217.57,
+      "pred_lasso": 526817.67
+    },
+    {
+      "actual": 251411.33,
+      "pred_linear": 304663.99,
+      "pred_ridge": 307674.97,
+      "pred_lasso": 306714.39
+    },
+    {
+      "actual": 490383.48,
+      "pred_linear": 498314.48,
+      "pred_ridge": 495287.99,
+      "pred_lasso": 497144.85
+    },
+    {
+      "actual": 766329.42,
+      "pred_linear": 760850.16,
+      "pred_ridge": 758099.9,
+      "pred_lasso": 758364.84
+    },
+    {
+      "actual": 336775.35,
+      "pred_linear": 307685.69,
+      "pred_ridge": 311279.51,
+      "pred_lasso": 311048.32
+    },
+    {
+      "actual": 478428.94,
+      "pred_linear": 513713.42,
+      "pred_ridge": 511022.7,
+      "pred_lasso": 516080.31
+    },
+    {
+      "actual": 504665.06,
+      "pred_linear": 473126.49,
+      "pred_ridge": 478061.03,
+      "pred_lasso": 471945.8
+    },
+    {
+      "actual": 657285.16,
+      "pred_linear": 666648.18,
+      "pred_ridge": 661150.16,
+      "pred_lasso": 666582.91
+    },
+    {
+      "actual": 623893.77,
+      "pred_linear": 631183.34,
+      "pred_ridge": 629298.47,
+      "pred_lasso": 630877.35
+    },
+    {
+      "actual": 601409.15,
+      "pred_linear": 621016.62,
+      "pred_ridge": 613231.03,
+      "pred_lasso": 618471.44
+    },
+    {
+      "actual": 742037.5,
+      "pred_linear": 716932.07,
+      "pred_ridge": 722577.86,
+      "pred_lasso": 716605.13
+    },
+    {
+      "actual": 659377.53,
+      "pred_linear": 663280.67,
+      "pred_ridge": 664861.51,
+      "pred_lasso": 661733.57
+    },
+    {
+      "actual": 730132.05,
+      "pred_linear": 699833.21,
+      "pred_ridge": 709501.65,
+      "pred_lasso": 699796.7
+    }
+  ],
+  "residual_distribution": {
+    "bin_labels": [
+      "-68k",
+      "-61k",
+      "-55k",
+      "-48k",
+      "-41k",
+      "-35k",
+      "-28k",
+      "-21k",
+      "-15k",
+      "-8k",
+      "-1k",
+      "+5k",
+      "+12k",
+      "+18k",
+      "+25k",
+      "+32k",
+      "+38k",
+      "+45k",
+      "+52k",
+      "+58k"
+    ],
+    "counts": [
+      4,
+      2,
+      4,
+      11,
+      10,
+      32,
+      25,
+      31,
+      42,
+      48,
+      33,
+      41,
+      43,
+      31,
+      13,
+      14,
+      10,
+      3,
+      1,
+      2
+    ]
+  }
+}

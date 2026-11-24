@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+
+{% block title %}About HomeValue - Project Architecture & Disclosures{% endblock %}
+
+{% block content %}
+<div class="container">
+
+  <div class="page-header">
+    <div style="display: inline-flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+      <span class="badge badge-teal">Project Overview</span>
+      <span class="badge">Architecture &amp; Governance</span>
+    </div>
+    <h1 class="page-title">About the HomeValue Valuation System</h1>
+    <p class="page-subtitle">
+      Understanding the software architecture, academic context, machine learning pipeline, and dataset transparency for the HomeValue housing price prediction platform.
+    </p>
+  </div>
+
+  <!-- Primary Project Overview -->
+  <div class="card" style="margin-bottom: 32px;">
+    <div class="card-header">
+      <div class="card-title">Project Mission &amp; Purpose</div>
+      <span class="badge">Production ML Architecture</span>
+    </div>
+    <div class="card-body">
+      <p style="font-size: 15px; color: var(--color-text-secondary); line-height: 1.7; margin-bottom: 16px;">
+        <strong>HomeValue</strong> was engineered to bridge the gap between academic Machine Learning exploration in Jupyter Notebooks and production-grade full-stack web platforms. The platform operationalizes a comparative econometric study of <strong>Linear Regression (OLS)</strong>, <strong>Ridge Regression (L2)</strong>, and <strong>Lasso Regression (L1)</strong> under conditions of acute structural multicollinearity.
+      </p>
+      <p style="font-size: 15px; color: var(--color-text-secondary); line-height: 1.7;">
+        Rather than merely outputting a single prediction, HomeValue serves as an educational and analytical tool, demonstrating in real-time how L1 penalty performs sparse feature selection while L2 penalty stabilizes variance across collinear features.
+      </p>
+    </div>
+  </div>
+
+  <!-- Synthetic Dataset Disclosure -->
+  <div class="card" style="margin-bottom: 32px;" id="dataset">
+    <div class="card-header">
+      <div class="card-title">Dataset Disclosure &amp; Controlled Generation</div>
+      <span class="badge badge-warning">Synthetic Benchmark</span>
+    </div>
+    <div class="card-body">
+      <div class="callout callout-warning">
+        <strong>Important Notice on Dataset Origin:</strong> The dataset used by HomeValue is a carefully crafted synthetic dataset (N = 2,000 properties, seed = 42) developed specifically to benchmark multicollinearity and regularization. Valuations provided by this system are econometric model demonstrations and must not be used as official commercial real-estate appraisals.
+      </div>
+      
+      <h4 style="font-size: 15px; font-weight: 700; color: var(--color-primary-navy); margin-bottom: 8px;">
+        Mathematical Generation Formula
+      </h4>
+      <p style="font-size: 14px; color: var(--color-text-secondary); line-height: 1.6; margin-bottom: 12px;">
+        As codified in the project notebook, the ground-truth target is defined by:
+      </p>
+      <div class="math-block">
+        sale_price = 50,000 + 150 &times; living_area_sqft + 10 &times; lot_size_sqft + 15,000 &times; garage_capacity + 8,000 &times; room_count + &epsilon;(0, 25,000)
+      </div>
+      <p style="font-size: 14px; color: var(--color-text-secondary); line-height: 1.6;">
+        Two deliberate collinear features were injected:
+      </p>
+      <ul style="list-style: disc; margin-left: 24px; font-size: 14px; color: var(--color-text-secondary); line-height: 1.8; margin-top: 8px;">
+        <li><code>total_interior_sqft = living_area_sqft + Normal(0, 100)</code></li>
+        <li><code>footprint_sqft = living_area_sqft &times; 0.75 + Normal(0, 80)</code></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Technology Stack & Architecture -->
+  <div class="card" style="margin-bottom: 32px;">
+    <div class="card-header">
+      <div class="card-title">Technology Stack &amp; Implementation Details</div>
+      <span class="badge">Lightweight &amp; Maintainable</span>
+    </div>
+    <div class="card-body">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px;">
+        
+        <div style="background-color: #F8FAFB; border: 1px solid var(--color-border-subtle); padding: 18px; border-radius: var(--radius-sm);">
+          <div style="font-size: 14px; font-weight: 700; color: var(--color-primary-navy); margin-bottom: 8px;">
+            Machine Learning Pipeline
+          </div>
+          <ul style="list-style: none; font-size: 13px; color: var(--color-text-secondary); line-height: 1.8;">
+            <li>&bull; Python 3.12 / 3.14</li>
+            <li>&bull; Scikit-learn (Ridge, Lasso, OLS)</li>
+            <li>&bull; NumPy &amp; Pandas (ETL &amp; Linear Algebra)</li>
+            <li>&bull; Joblib (Serialized Model Bundles)</li>
+            <li>&bull; 5-Fold Cross Validation</li>
+          </ul>
+        </div>
+
+        <div style="background-color: #F8FAFB; border: 1px solid var(--color-border-subtle); padding: 18px; border-radius: var(--radius-sm);">
+          <div style="font-size: 14px; font-weight: 700; color: var(--color-primary-navy); margin-bottom: 8px;">
+            Backend &amp; API Server
+          </div>
+          <ul style="list-style: none; font-size: 13px; color: var(--color-text-secondary); line-height: 1.8;">
+            <li>&bull; Flask 3.1 (REST Endpoints)</li>
+            <li>&bull; Gunicorn (WSGI Server)</li>
+            <li>&bull; Input Boundary Validation Engine</li>
+            <li>&bull; Standardized JSON Error Handling</li>
+            <li>&bull; Deployable to GitHub &amp; Render</li>
+          </ul>
+        </div>
+
+        <div style="background-color: #F8FAFB; border: 1px solid var(--color-border-subtle); padding: 18px; border-radius: var(--radius-sm);">
+          <div style="font-size: 14px; font-weight: 700; color: var(--color-primary-navy); margin-bottom: 8px;">
+            Frontend Architecture
+          </div>
+          <ul style="list-style: none; font-size: 13px; color: var(--color-text-secondary); line-height: 1.8;">
+            <li>&bull; Semantic HTML5 &amp; Clean CSS3</li>
+            <li>&bull; Vanilla ES6+ JavaScript (No Bloat)</li>
+            <li>&bull; Chart.js (Data Visualization)</li>
+            <li>&bull; Inter Typography &amp; PropTech Styling</li>
+            <li>&bull; Responsive Tablet &amp; Mobile Grids</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Project Limitations -->
+  <div class="card" style="margin-bottom: 32px;" id="limitations">
+    <div class="card-header">
+      <div class="card-title">Limitations &amp; Future Scope</div>
+      <span class="badge">Technical Constraints</span>
+    </div>
+    <div class="card-body">
+      <ul style="list-style: disc; margin-left: 24px; font-size: 14px; color: var(--color-text-secondary); line-height: 1.8;">
+        <li><strong>Linear Function Assumption:</strong> All models assume linear relationships between continuous square footage and sale price. Non-linear price accelerations or threshold boundaries are not modeled.</li>
+        <li><strong>Absence of Geographic Coordinates:</strong> The model evaluates architectural dimensions only; real-world property prices are heavily influenced by micro-location, school districts, and transit access.</li>
+        <li><strong>Fixed Regularization Hyperparameters:</strong> Current deployment fixes &alpha; = 10 for Ridge and &alpha; = 1,000 for Lasso based on the notebook's cross-validated optima. Dynamic hyperparameter grid-search via interactive slider can be added in future iterations.</li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

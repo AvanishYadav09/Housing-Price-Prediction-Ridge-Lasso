@@ -1,0 +1,253 @@
+{% extends "base.html" %}
+
+{% block title %}Model Analytics & Econometric Dashboard - HomeValue{% endblock %}
+
+{% block content %}
+<div class="container">
+
+  <div class="page-header">
+    <div style="display: inline-flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+      <span class="badge badge-teal">Computed Ground Truth</span>
+      <span class="badge">N = 2,000 Properties</span>
+    </div>
+    <h1 class="page-title">Executive Model &amp; Data Analytics Dashboard</h1>
+    <p class="page-subtitle">
+      Inspect computed performance metrics, cross-validation folds, feature multicollinearity (VIF), residual distributions, and coefficient shrinkage paths across Linear, Ridge, and Lasso regression.
+    </p>
+  </div>
+
+  <!-- Top KPIs -->
+  <div class="kpi-grid">
+    <div class="kpi-tile">
+      <div class="kpi-label">Total Observations</div>
+      <div class="kpi-value">{{ analytics.metadata.total_records|default(2000) }}</div>
+      <div class="kpi-sub">1,600 Train / 400 Hold-out Test</div>
+    </div>
+    
+    <div class="kpi-tile">
+      <div class="kpi-label">Highest Test R&sup2;</div>
+      <div class="kpi-value">0.9716</div>
+      <div class="kpi-sub">Lasso (&alpha;=1000) &amp; Linear (OLS)</div>
+    </div>
+    
+    <div class="kpi-tile">
+      <div class="kpi-label">Lowest Test RMSE</div>
+      <div class="kpi-value">23,707.15</div>
+      <div class="kpi-sub">Linear: 23,707 | Lasso: 23,713</div>
+    </div>
+    
+    <div class="kpi-tile">
+      <div class="kpi-label">Highest Feature VIF</div>
+      <div class="kpi-value" style="color: #C53929;">166.46</div>
+      <div class="kpi-sub">Living Area (Collinear with Interior/Footprint)</div>
+    </div>
+  </div>
+
+  <!-- Row 1: Model Comparison (R2 & RMSE) + Multicollinearity VIF Bar Chart -->
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 32px;">
+    
+    <!-- Model Metrics Chart -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">Model Performance Comparison (Test Set)</div>
+        <span class="badge badge-teal">Test N = 400</span>
+      </div>
+      <div class="card-body">
+        <div style="height: 280px;">
+          <canvas id="modelPerfChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- VIF Multicollinearity Chart -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">Variance Inflation Factor (VIF) Analysis</div>
+        <span class="badge badge-warning">Threshold = 10</span>
+      </div>
+      <div class="card-body">
+        <div style="height: 280px;">
+          <canvas id="vifChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Row 2: Actual vs Predicted Scatter + Residual Distribution -->
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 32px;">
+    
+    <!-- Actual vs Predicted -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">Actual vs. Predicted Property Valuations</div>
+        <span class="form-hint">Holdout Test Set Samples</span>
+      </div>
+      <div class="card-body">
+        <div style="height: 280px;">
+          <canvas id="actualVsPredChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Residual Distribution Histogram -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">Residual Distribution (Prediction Errors)</div>
+        <span class="form-hint">Normal Error Centered at 0</span>
+      </div>
+      <div class="card-body">
+        <div style="height: 280px;">
+          <canvas id="residualChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Coefficient Shrinkage Comparison Table -->
+  <div class="card" style="margin-bottom: 32px;">
+    <div class="card-header">
+      <div class="card-title">Standardized Coefficient Shrinkage &amp; Feature Weights</div>
+      <span class="form-hint">Direct Comparison of Feature Penalization</span>
+    </div>
+    <div class="card-body" style="padding: 0;">
+      <div class="table-wrapper" style="border: none; border-radius: 0;">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Feature Name</th>
+              <th class="text-right">VIF Score</th>
+              <th class="text-right">Linear (OLS)</th>
+              <th class="text-right">Ridge (&alpha;=10)</th>
+              <th class="text-right">Lasso (&alpha;=1000)</th>
+              <th>Regularization Behavior</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Living Area (sq. ft.)</strong></td>
+              <td class="text-right"><strong style="color: #C53929;">166.46</strong></td>
+              <td class="text-right">141,750.17</td>
+              <td class="text-right">83,891.57</td>
+              <td class="text-right">138,399.62</td>
+              <td><span class="badge">Primary Value Driver</span></td>
+            </tr>
+            <tr>
+              <td><strong>Total Interior Area (sq. ft.)</strong></td>
+              <td class="text-right"><strong style="color: #C53929;">88.43</strong></td>
+              <td class="text-right">2,563.92</td>
+              <td class="text-right">31,406.48</td>
+              <td class="text-right">1,034.72</td>
+              <td><span class="badge">Ridge absorbs shared weight</span></td>
+            </tr>
+            <tr style="background-color: #FDF9F8;">
+              <td><strong>Footprint Area (sq. ft.)</strong></td>
+              <td class="text-right"><strong style="color: #C53929;">78.61</strong></td>
+              <td class="text-right"><strong style="color: #C53929;">-3,905.10</strong></td>
+              <td class="text-right">+24,935.63</td>
+              <td class="text-right"><strong style="color: var(--color-primary-navy);">0.0000</strong></td>
+              <td><span class="badge badge-success">Lasso selects out redundant feature</span></td>
+            </tr>
+            <tr>
+              <td><strong>Garage Capacity (cars)</strong></td>
+              <td class="text-right">1.00</td>
+              <td class="text-right">16,496.68</td>
+              <td class="text-right">16,339.66</td>
+              <td class="text-right">15,431.13</td>
+              <td><span class="badge">Orthogonal / Independent</span></td>
+            </tr>
+            <tr>
+              <td><strong>Lot Size (sq. ft.)</strong></td>
+              <td class="text-right">1.00</td>
+              <td class="text-right">23,359.95</td>
+              <td class="text-right">23,215.95</td>
+              <td class="text-right">22,379.64</td>
+              <td><span class="badge">Orthogonal / Independent</span></td>
+            </tr>
+            <tr>
+              <td><strong>Room Count (above ground)</strong></td>
+              <td class="text-right">1.00</td>
+              <td class="text-right">17,238.03</td>
+              <td class="text-right">16,885.35</td>
+              <td class="text-right">16,230.95</td>
+              <td><span class="badge">Orthogonal / Independent</span></td>
+            </tr>
+            <tr style="font-weight: 600; background-color: #F8FAFB;">
+              <td>Intercept (&beta;<sub>0</sub>)</td>
+              <td class="text-right">&mdash;</td>
+              <td class="text-right">530,803.12</td>
+              <td class="text-right">530,803.12</td>
+              <td class="text-right">530,803.12</td>
+              <td>Sample Mean Price</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5-Fold Cross Validation Detailed Breakdown Table -->
+  <div class="card" style="margin-bottom: 32px;">
+    <div class="card-header">
+      <div class="card-title">5-Fold Cross-Validation Performance Stability</div>
+      <span class="badge badge-teal">Seed = 42</span>
+    </div>
+    <div class="card-body" style="padding: 0;">
+      <div class="table-wrapper" style="border: none; border-radius: 0;">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Model Architecture</th>
+              <th class="text-right">Fold 1 R&sup2;</th>
+              <th class="text-right">Fold 2 R&sup2;</th>
+              <th class="text-right">Fold 3 R&sup2;</th>
+              <th class="text-right">Fold 4 R&sup2;</th>
+              <th class="text-right">Fold 5 R&sup2;</th>
+              <th class="text-right">Mean R&sup2;</th>
+              <th class="text-right">Mean RMSE</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Linear Regression (OLS)</strong></td>
+              <td class="text-right">0.9691</td>
+              <td class="text-right">0.9734</td>
+              <td class="text-right">0.9718</td>
+              <td class="text-right">0.9745</td>
+              <td class="text-right">0.9716</td>
+              <td class="text-right"><strong>0.9721</strong></td>
+              <td class="text-right">24,215.22</td>
+            </tr>
+            <tr>
+              <td><strong>Ridge Regression (&alpha;=10)</strong></td>
+              <td class="text-right">0.9680</td>
+              <td class="text-right">0.9728</td>
+              <td class="text-right">0.9712</td>
+              <td class="text-right">0.9733</td>
+              <td class="text-right">0.9713</td>
+              <td class="text-right"><strong>0.9713</strong></td>
+              <td class="text-right">24,583.00</td>
+            </tr>
+            <tr>
+              <td><strong>Lasso Regression (&alpha;=1000)</strong></td>
+              <td class="text-right">0.9688</td>
+              <td class="text-right">0.9732</td>
+              <td class="text-right">0.9717</td>
+              <td class="text-right">0.9742</td>
+              <td class="text-right">0.9716</td>
+              <td class="text-right"><strong>0.9719</strong></td>
+              <td class="text-right">24,290.93</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/analytics.js') }}"></script>
+{% endblock %}

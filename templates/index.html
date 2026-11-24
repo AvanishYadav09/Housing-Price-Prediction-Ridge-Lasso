@@ -1,0 +1,243 @@
+{% extends "base.html" %}
+
+{% block title %}HomeValue - Advanced Housing Valuation & Regularization Platform{% endblock %}
+
+{% block content %}
+<div class="container">
+  
+  <!-- Hero Section -->
+  <section class="hero-section" style="margin-bottom: 56px;">
+    <div style="max-width: 840px;">
+      <div style="display: inline-flex; align-items: center; gap: 8px; margin-bottom: 16px;">
+        <span class="badge badge-teal">Machine Learning Econometrics</span>
+        <span class="badge">5-Fold Cross Validation: 0.972 R&sup2;</span>
+      </div>
+      
+      <h1 style="font-size: 42px; font-weight: 700; color: var(--color-primary-navy); letter-spacing: -1.2px; line-height: 1.15; margin-bottom: 20px;">
+        Precision Property Valuation Powered by Regularized Machine Learning
+      </h1>
+      
+      <p style="font-size: 17px; color: var(--color-text-secondary); line-height: 1.6; margin-bottom: 28px;">
+        HomeValue provides property pricing estimates by evaluating Ordinary Least Squares (OLS), Ridge (L2), and Lasso (L1) regression models against correlated architectural features. Experience real-time multi-model valuations and explore how regularization resolves severe multicollinearity.
+      </p>
+      
+      <div style="display: flex; gap: 14px; flex-wrap: wrap;">
+        <a href="{{ url_for('predict_page') }}" class="btn btn-accent" style="padding: 12px 24px; font-size: 15px;">
+          Estimate Property Value
+        </a>
+        <a href="{{ url_for('methodology_page') }}" class="btn btn-secondary" style="padding: 12px 24px; font-size: 15px;">
+          Explore Methodology &amp; VIF
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Key Performance Indicators -->
+  <section class="kpi-grid">
+    <div class="kpi-tile">
+      <div class="kpi-label">Dataset Records</div>
+      <div class="kpi-value">{{ metadata.total_records|default(2000) }}</div>
+      <div class="kpi-sub">80% Train ({{ metadata.train_records|default(1600) }}) / 20% Test ({{ metadata.test_records|default(400) }})</div>
+    </div>
+    
+    <div class="kpi-tile">
+      <div class="kpi-label">Model Accuracy (R&sup2;)</div>
+      <div class="kpi-value">0.9716</div>
+      <div class="kpi-sub">Test set evaluation across 400 properties</div>
+    </div>
+    
+    <div class="kpi-tile">
+      <div class="kpi-label">Test Set RMSE</div>
+      <div class="kpi-value">23,707</div>
+      <div class="kpi-sub">Normalized root mean squared deviation</div>
+    </div>
+    
+    <div class="kpi-tile">
+      <div class="kpi-label">Max Feature VIF</div>
+      <div class="kpi-value" style="color: #C53929;">166.46</div>
+      <div class="kpi-sub">Severe collinearity in Living Area (threshold = 10)</div>
+    </div>
+  </section>
+
+  <!-- Model Comparison Architecture -->
+  <section style="margin-bottom: 48px;">
+    <div style="margin-bottom: 24px;">
+      <h2 style="font-size: 22px; font-weight: 700; color: var(--color-primary-navy); letter-spacing: -0.4px;">
+        Regression Models &amp; Multicollinearity Behavior
+      </h2>
+      <p style="color: var(--color-text-secondary); font-size: 14px; margin-top: 4px;">
+        Comparison of how different loss functions handle structural correlation among living area, interior area, and foundation footprint.
+      </p>
+    </div>
+    
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px;">
+      <!-- Linear (OLS) -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Linear Regression (OLS)</div>
+          <span class="badge">Unpenalized</span>
+        </div>
+        <div class="card-body">
+          <p style="font-size: 14px; color: var(--color-text-secondary); margin-bottom: 16px;">
+            Minimizes standard sum of squared residuals without constraint. Under severe multicollinearity, the feature matrix becomes ill-conditioned, yielding erratic and counter-intuitive negative weights.
+          </p>
+          <div style="background-color: #F8FAFB; border: 1px solid var(--color-border-subtle); padding: 12px; border-radius: var(--radius-sm); font-size: 13px;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+              <span style="color: var(--color-text-secondary);">Footprint Coef:</span>
+              <strong style="color: #C53929;">-3,905.10 (Negative artifact)</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between;">
+              <span style="color: var(--color-text-secondary);">Test R&sup2; Score:</span>
+              <strong>0.9716</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Ridge Regression -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Ridge Regression</div>
+          <span class="badge badge-teal">L2 Regularization (&alpha;=10)</span>
+        </div>
+        <div class="card-body">
+          <p style="font-size: 14px; color: var(--color-text-secondary); margin-bottom: 16px;">
+            Applies an L2 squared weight penalty (&lambda; &Sigma;&beta;&sup2;). Adds variance stabilization to (X&prime;X + &alpha;I), distributing weights proportionally across correlated features rather than dropping them.
+          </p>
+          <div style="background-color: #F8FAFB; border: 1px solid var(--color-border-subtle); padding: 12px; border-radius: var(--radius-sm); font-size: 13px;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+              <span style="color: var(--color-text-secondary);">Footprint Coef:</span>
+              <strong style="color: var(--color-accent-teal-dark);">+24,935.63 (Stabilized)</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between;">
+              <span style="color: var(--color-text-secondary);">Test R&sup2; Score:</span>
+              <strong>0.9713</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Lasso Regression -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Lasso Regression</div>
+          <span class="badge badge-success">L1 Regularization (&alpha;=1000)</span>
+        </div>
+        <div class="card-body">
+          <p style="font-size: 14px; color: var(--color-text-secondary); margin-bottom: 16px;">
+            Applies an L1 absolute weight penalty (&lambda; &Sigma;|&beta;|). Performs coordinate descent with soft thresholding to drive redundant collinear coefficients to exactly zero for automated feature selection.
+          </p>
+          <div style="background-color: #F8FAFB; border: 1px solid var(--color-border-subtle); padding: 12px; border-radius: var(--radius-sm); font-size: 13px;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+              <span style="color: var(--color-text-secondary);">Footprint Coef:</span>
+              <strong style="color: var(--color-primary-navy);">0.0000 (Feature Dropped)</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between;">
+              <span style="color: var(--color-text-secondary);">Test R&sup2; Score:</span>
+              <strong>0.9716</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Performance Benchmark Table -->
+  <section style="margin-bottom: 48px;">
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">Model Performance &amp; Validation Benchmark</div>
+        <a href="{{ url_for('analytics_page') }}" class="btn btn-secondary btn-sm">Full Analytics &rarr;</a>
+      </div>
+      <div class="card-body" style="padding: 0;">
+        <div class="table-wrapper" style="border: none; border-radius: 0;">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Model Architecture</th>
+                <th>Penalty Type</th>
+                <th>Hyperparameter (&alpha;)</th>
+                <th class="text-right">Test R&sup2;</th>
+                <th class="text-right">Test RMSE</th>
+                <th class="text-right">Test MAE</th>
+                <th class="text-right">5-Fold CV R&sup2;</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Linear Regression</strong></td>
+                <td>None (OLS)</td>
+                <td>&mdash;</td>
+                <td class="text-right">0.9716</td>
+                <td class="text-right">23,707.15</td>
+                <td class="text-right">19,168.62</td>
+                <td class="text-right">0.9721 &plusmn; 0.003</td>
+              </tr>
+              <tr>
+                <td><strong>Ridge Regression</strong></td>
+                <td>L2 (Weight Shrinkage)</td>
+                <td>&alpha; = 10</td>
+                <td class="text-right">0.9713</td>
+                <td class="text-right">23,837.96</td>
+                <td class="text-right">19,283.67</td>
+                <td class="text-right">0.9713 &plusmn; 0.004</td>
+              </tr>
+              <tr>
+                <td><strong>Lasso Regression</strong></td>
+                <td>L1 (Sparsity / Selection)</td>
+                <td>&alpha; = 1,000</td>
+                <td class="text-right">0.9716</td>
+                <td class="text-right">23,713.22</td>
+                <td class="text-right">19,129.36</td>
+                <td class="text-right">0.9719 &plusmn; 0.003</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Dataset & Econometric Context -->
+  <section class="card" style="margin-bottom: 32px;">
+    <div class="card-body" style="padding: 32px;">
+      <div style="display: flex; gap: 32px; align-items: flex-start; flex-wrap: wrap;">
+        <div style="flex: 2; min-width: 300px;">
+          <h3 style="font-size: 20px; font-weight: 700; color: var(--color-primary-navy); margin-bottom: 12px;">
+            Dataset &amp; Controlled Econometric Formulation
+          </h3>
+          <p style="color: var(--color-text-secondary); font-size: 14px; line-height: 1.6; margin-bottom: 16px;">
+            The underlying dataset contains 2,000 residential property records generated with deliberate collinearity between <code>living_area_sqft</code>, <code>total_interior_sqft</code>, and <code>footprint_sqft</code>. The target variable <code>sale_price</code> was modeled using the ground-truth equation:
+          </p>
+          <div class="math-block">
+            sale_price = 50,000 + 150 &times; living_area + 10 &times; lot_size + 15,000 &times; garage + 8,000 &times; rooms + &epsilon;(0, 25,000)
+          </div>
+          <p style="color: var(--color-text-secondary); font-size: 13px;">
+            Notice that <code>total_interior_sqft</code> and <code>footprint_sqft</code> have a true economic coefficient of zero. Lasso successfully identifies this ground-truth sparsity by eliminating footprint area.
+          </p>
+        </div>
+        
+        <div style="flex: 1; min-width: 240px; background-color: #F8FAFB; border: 1px solid var(--color-border); border-radius: var(--radius-sm); padding: 20px;">
+          <h4 style="font-size: 14px; font-weight: 700; color: var(--color-primary-navy); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px;">
+            Feature Inventory
+          </h4>
+          <ul style="list-style: none; font-size: 13px; color: var(--color-text-secondary); line-height: 2;">
+            <li>&bull; Living Area (sq. ft.) [Collinear]</li>
+            <li>&bull; Total Interior Area (sq. ft.) [Collinear]</li>
+            <li>&bull; Footprint Area (sq. ft.) [Collinear]</li>
+            <li>&bull; Garage Capacity (0 to 3 cars)</li>
+            <li>&bull; Lot Size (1,500 to 10,000 sq. ft.)</li>
+            <li>&bull; Room Count (2 to 8 rooms)</li>
+          </ul>
+          <div style="margin-top: 16px;">
+            <a href="{{ url_for('predict_page') }}" class="btn btn-accent btn-sm" style="width: 100%;">
+              Launch Valuation Form
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+{% endblock %}
